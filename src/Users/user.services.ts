@@ -14,7 +14,7 @@ export class UserService {
         return this.usersRepository.getById(id);
     };
 
-    createUser(user: Omit<User, 'id'>): Promise<Partial<User>> {
+    createUser(user: Partial<User>): Promise<Partial<User>> {
         return this.usersRepository.createUser(user);
     };
 

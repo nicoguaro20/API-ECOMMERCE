@@ -4,6 +4,7 @@ import { Category } from '../Categories/categories.entity';
 import * as data from '../utils/seeders/data.json';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Products } from './products.entity';
+import { CreateProductDto } from 'src/dto/create-product.dto';
 
 @Injectable()
 export class ProductsRepository {
@@ -61,7 +62,7 @@ export class ProductsRepository {
     return 'Productos agregados';
   };
 
-  async createProduct(product: Omit<Products, 'id'>): Promise<string> {
+  async createProduct(product: Partial<Products>): Promise<string> {
     const newProduct = this.productsRepository.create(product);
     const result = await this.productsRepository.save(newProduct);
     return result.id;

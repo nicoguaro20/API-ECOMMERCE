@@ -5,7 +5,7 @@ export function validateUser(user: any): boolean {
            typeof user.email === 'string' && user.email.includes('@') &&
            typeof user.password === 'string' && user.password.length >= 6 &&
            typeof user.address === 'string' && user.address.trim() !== '' &&
-           typeof user.phone === 'string' && user.phone.trim() !== '';
+           typeof user.phone === 'number';
 };
 
 export function validateProduct(product: any): boolean {
@@ -13,7 +13,7 @@ export function validateProduct(product: any): boolean {
 
     return typeof product.name === 'string' && product.name.trim() !== '' &&
            typeof product.description === 'string' && product.description.trim() !== '' &&
-           typeof product.pryce === 'number' && product.pryce > 0 &&
-           typeof product.stock === 'boolean' && 
+           typeof product.price === 'number' && product.price > 0 &&
+           typeof product.stock === 'number' && product.stock >= 0 &&
            typeof product.imgUrl === 'string' && product.imgUrl.trim() !== '';
 };

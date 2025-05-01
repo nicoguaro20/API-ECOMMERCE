@@ -4,11 +4,6 @@ import { registerAs } from '@nestjs/config';
 
 dotenvConfig({ path: '.env' });
 
-console.log('DB_USERNAME:', process.env.DB_USERNAME);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_NAME:', process.env.DB_NAME);
-
 const config: DataSourceOptions = {
     type: 'postgres',
     host: process.env.DB_HOST,
@@ -18,7 +13,7 @@ const config: DataSourceOptions = {
     database: process.env.DB_NAME,
     entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     migrations: [__dirname + '/../migrations/*{.ts,.js}'],
-    synchronize: process.env.NODE_ENV !== 'production',
+    synchronize: true, //process.env.NODE_ENV !== 'production',
     logging: process.env.NODE_ENV === 'development',
 };
 

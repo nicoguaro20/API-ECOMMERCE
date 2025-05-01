@@ -6,7 +6,10 @@ import { Roles } from 'src/decorators/role/decorators.role';
 import { Role } from 'src/enum/roles.enum';
 import { AuthGuard } from 'src/Auth/guards/auth.guard';
 import { RolesGuard } from 'src/Auth/guards/roles.guard';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { CreateProductDto } from '../dto/create-product.dto';
  
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
     constructor(private readonly productServices: ProductService) {}
@@ -28,6 +31,7 @@ export class ProductsController {
         return this.productServices.getById(id);
     };
 
+    @ApiBearerAuth()
     @HttpCode(201)
     @Post()
     createProduct(@Body() product: Product) {
@@ -37,6 +41,7 @@ export class ProductsController {
         return 'Producto no válido';
     };
     
+    @ApiBearerAuth()
     @HttpCode(200)
     @Put(':id')
     @Roles(Role.Admin)
@@ -48,6 +53,7 @@ export class ProductsController {
         return 'Producto no válido';
     };
 
+    @ApiBearerAuth()
     @HttpCode(200)
     @Delete(':id')
     @UseGuards(AuthGuard)

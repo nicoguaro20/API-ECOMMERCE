@@ -2,21 +2,31 @@ import { Body, Controller, Get, Param, Post, ParseUUIDPipe, UseGuards } from '@n
 import { OrderService } from './orders.service';
 import { CreateOrderDto } from '../dto/create-order.dto';
 import { AuthGuard } from 'src/Auth/guards/auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { plainToInstance } from 'class-transformer';
+import { OrderDetail } from '../Orders-details/orders-details.entity';
 
 @Controller('orders')
+@ApiBearerAuth()
 export class OrdersController {
-    constructor(private orderService: OrderService) {};
+    constructor(private orderService: OrderService) {}
 
     @Post()
     @UseGuards(AuthGuard)
-    addOrder(@Body() order: CreateOrderDto){
-        const { userId, products} = order
-        return this.orderService.addOrder(userId, products)
-    };
+    async addOrder(@Body() order: CreateOrderDto) {
+        const { userId, products } = order;
+        const newOrder = await this.orderService.addOrder(userId, products);
 
-    @Get()
+        // Aplica transformación para excluir la referencia circular
+        return plainToInstance(OrderDetail, newOrder);
+    }
+
+    @Get(':id')
     @UseGuards(AuthGuard)
-    getOrder(@Param('id', ParseUUIDPipe)id: string) {
-        return this.orderService.getOrder(id)
-    };
-};
+    async getOrder(@Param('id', ParseUUIDPipe) id: string) {
+        const orderDetail = await this.orderService.getOrder(id);
+
+        // Aplica transformación para excluir la referencia circular
+        return plainToInstance(OrderDetail, orderDetail);
+    }
+}

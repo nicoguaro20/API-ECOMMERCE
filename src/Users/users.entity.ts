@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
 import { Order } from '../Orders/orders.entity';
 
 @Entity({
@@ -59,7 +59,7 @@ export class User {
     })
     isAdmin: boolean;
 
-    @Column({
+    @CreateDateColumn({
         type: 'date',
     })
     createdAt: Date;

@@ -1,7 +1,9 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './users.entity';
 import { Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { CreateUserDto } from '../dto/create-user.dto';
+import * as bcrypt from 'bcrypt';
 
 export class UsersRepository {
   constructor(
@@ -28,7 +30,7 @@ export class UsersRepository {
     if (!user) {
       throw new NotFoundException('Usuario no encontrado');
     }
-    const { password, ...userWithoutPassword } = user;
+    const { password, isAdmin, ...userWithoutPassword } = user;
     return userWithoutPassword;
   };
 
@@ -47,15 +49,25 @@ export class UsersRepository {
     return userWithoutPassword;
   };
 
-  async update(id: string, user: Partial<User>): Promise<Partial<User>> {
-    await this.usersRepository.update(id, user);
+  async update(id: string, user: Partial<CreateUserDto>): Promise<Partial<User>> {
+    if (user.password && user.confirmPassword) {
 
+      if (user.password !== user.confirmPassword) {
+        throw new BadRequestException('¡Las contraseñas no coinciden!');
+      }
+  
+      user.password = await bcrypt.hash(user.password, 10);
+      delete user.confirmPassword;
+    }
+    await this.usersRepository.update(id, user);
+  
     const updateUser = await this.usersRepository.findOneBy({ id });
     if (!updateUser) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
+  
     const { password, isAdmin, ...userWithoutPassword } = updateUser;
-
+  
     return userWithoutPassword;
   };
 

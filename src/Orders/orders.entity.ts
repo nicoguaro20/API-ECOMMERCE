@@ -10,10 +10,11 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: false})
   date: Date;
 
-  @OneToOne(() => OrderDetail, (orderDetail) => orderDetail.order)
+  @OneToOne(() => OrderDetail, { cascade: true})
+  @JoinColumn({ name: 'orderDetailId' })
   orderDetail: OrderDetail;
 
   @ManyToOne(() => User, (user) => user.orders)

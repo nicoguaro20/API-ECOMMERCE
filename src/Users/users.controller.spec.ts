@@ -5,7 +5,7 @@ import { UserService } from './user.services';
 import { AuthGuard } from '../Auth/guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 
 describe('UsersController', () => {
     let app: INestApplication;

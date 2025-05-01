@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Put, Param, Body, HttpCode, Query, UseGuards, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Delete, Put, Param, Body, HttpCode, Query, UseGuards, ParseUUIDPipe } from '@nestjs/common';
 import { UserService } from './user.services';
 import { validateUser } from 'src/utils/validate';
 import { AuthGuard } from 'src/Auth/guards/auth.guard';
@@ -7,7 +7,9 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { RolesGuard } from 'src/Auth/guards/roles.guard';
 import { Roles } from 'src/decorators/role/decorators.role';
 import { Role } from 'src/enum/roles.enum';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
 
@@ -16,6 +18,7 @@ export class UsersController {
     private readonly usersDbService: UsersDbService,
   ) {}
 
+  
   @HttpCode(200)
   @Get('/list')
   @Roles(Role.Admin)

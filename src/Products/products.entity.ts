@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, ManyToOne, JoinColumn,  JoinTable } from 'typeorm';
 import { OrderDetail } from '../Orders-details/orders-details.entity';
 import { Category } from '../Categories/categories.entity';
 
@@ -47,6 +47,5 @@ export class Products {
     orderDetails: OrderDetail[];
 
     @ManyToOne(() => Category, (category) => category.products)
-    @JoinColumn({name: 'category_id'})
     category: Category;
 };

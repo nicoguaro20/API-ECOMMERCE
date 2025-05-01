@@ -2,14 +2,13 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToMany, JoinTable
 import { v4 as uuid } from 'uuid';
 import { Order } from '../Orders/orders.entity';
 import { Products } from '../Products/products.entity';
+import { Exclude } from 'class-transformer';
 
-@Entity({
-  name: 'orderDetails'  
-})
+@Entity({ name: 'order_details' })
 export class OrderDetail {
 
     @PrimaryGeneratedColumn('uuid')
-    id: string = uuid();
+    id: string;
 
     @Column({
       type: 'decimal',
@@ -19,12 +18,11 @@ export class OrderDetail {
     })
     price: number;
 
+    @Exclude()
     @OneToOne(() => Order, (order) => order.orderDetail)
-    order: Order
+    order: Order;
 
-    @ManyToMany(() => Products)
-    @JoinTable({
-      name: 'order_details_products'
-    })
+    @ManyToMany(() => Products, (product) => product.orderDetails)
+    @JoinTable({  name: 'order_details_products' })
     products: Products[]
 };
