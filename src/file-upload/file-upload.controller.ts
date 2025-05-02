@@ -13,7 +13,7 @@ export class FileUploadController {
     @Post('uploadImage/:productId')
     @UseInterceptors(FileInterceptor('file'))
     async uploadProduct(
-        @Param('id') id: string,
+        @Param('productId') id: string,
         @UploadedFile(
             new ParseFilePipe({
                 validators: [
@@ -22,12 +22,13 @@ export class FileUploadController {
                         message: '¡Tamaño de imagen muy grande!',
                     }),
                     new FileTypeValidator({
-                        fileType: /(jpg|jpeg|png|webpt)$/,
+                        fileType: /(jpg|jpeg|png|webp)$/,
                     })
                 ]
             })
         ) file: Express.Multer.File,
     ) {
+        console.log('Archivo recibido:', file);
         return this.fileUploadService.uploadProductImage(file, id)
     }
 };
