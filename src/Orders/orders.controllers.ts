@@ -16,8 +16,6 @@ export class OrdersController {
     async addOrder(@Body() order: CreateOrderDto) {
         const { userId, products } = order;
         const newOrder = await this.orderService.addOrder(userId, products);
-
-        // Aplica transformación para excluir la referencia circular
         return plainToInstance(OrderDetail, newOrder);
     }
 
@@ -25,8 +23,7 @@ export class OrdersController {
     @UseGuards(AuthGuard)
     async getOrder(@Param('id', ParseUUIDPipe) id: string) {
         const orderDetail = await this.orderService.getOrder(id);
-
-        // Aplica transformación para excluir la referencia circular
+        
         return plainToInstance(OrderDetail, orderDetail);
     }
 }
