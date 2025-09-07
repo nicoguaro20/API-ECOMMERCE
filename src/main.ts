@@ -4,6 +4,8 @@ import { loggerGlobal } from './middlewares/logger.middleware';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { initializeDatabase } from './config/typeorm';
+import * as crypto from 'crypto';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,9 +27,11 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  (global as any).crypto = crypto;
   
   await initializeDatabase();
-  
+
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 
 }
