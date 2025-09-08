@@ -93,6 +93,6 @@
     "node": "20.x"
   },
   "overrides": {
-    "@scarf/scarf": "false"
+    "@scarf/scarf": "0.0.0"
   }
 }
