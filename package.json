@@ -90,6 +90,7 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": ">=20 <23"
+    "node": "20.x",
+    "npm": "9.x"
   }
 }
