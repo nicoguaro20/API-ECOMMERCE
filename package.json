@@ -91,5 +91,8 @@
   },
   "engines": {
     "node": "20.x"
+  },
+  "overrides": {
+    "@scarf/scarf": "npm:@empty"
   }
 }
